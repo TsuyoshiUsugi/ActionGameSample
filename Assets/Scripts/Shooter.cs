@@ -11,10 +11,10 @@ public class Shooter : MonoBehaviour
     [SerializeField] float _power = 3.0f;
     [SerializeField] GameObject _shooter = null;
     
-    protected void Shot()
+    protected void Shot(int addPower = 1)
     {
         var shotObj = Instantiate(_shooter, transform.position + transform.forward * 2, transform.rotation);
         var hitCtrl = shotObj.GetComponent<HitCtrl>();
-        hitCtrl.SetParameter(_damage, _power);
+        hitCtrl.SetParameter(_damage * addPower, _power);
     }
 }

@@ -14,7 +14,7 @@ public class Character : MonoBehaviour
     [SerializeField] int _criRate = 80;
     [SerializeField] float _moveInterval = 1.0f;
     [SerializeField] GameObject _head;
-    [SerializeField] int _coinPower = 0;    //コインを取得すると上がる。これにより攻撃力が上がる
+    [SerializeField] int _coinPower = 1;    //コインを取得すると上がる。これにより攻撃力が上がる
 
     Vector3 _initialPos;
     Rigidbody _rbody;
@@ -24,6 +24,7 @@ public class Character : MonoBehaviour
 
     public int HP => _hp;
     public int MaxHP { get; protected set; }
+    public int CoinPower => _coinPower;
     LifeChange _lifeChange;
 
     private void Awake()
@@ -134,11 +135,13 @@ public class Character : MonoBehaviour
         _moveTimer = _moveInterval;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.TryGetComponent(out Rotator coin))
+        if (other.gameObject.TryGetComponent(out Rotator coin))
         {
             Debug.Log("Coin獲得");
+            _coinPower++;
+            Destroy(coin.gameObject);
         }
     }
 }
