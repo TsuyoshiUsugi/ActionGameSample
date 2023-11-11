@@ -14,6 +14,7 @@ public class Character : MonoBehaviour
     [SerializeField] int _criRate = 80;
     [SerializeField] float _moveInterval = 1.0f;
     [SerializeField] GameObject _head;
+    [SerializeField] int _coinPower = 0;    //コインを取得すると上がる。これにより攻撃力が上がる
 
     Vector3 _initialPos;
     Rigidbody _rbody;
@@ -113,7 +114,7 @@ public class Character : MonoBehaviour
         if (Physics.Raycast(new Vector3(pos.x, 0.3f, pos.z), new Vector3(dir.x, 0, dir.y), out hit))
         {
             //壁に近い場合はダメ
-            if (hit.distance < 2.0f)
+            if (hit.distance < 2.0f && !hit.collider.GetComponent<Rotator>())
             {
                 Debug.Log(hit);
                 return;
@@ -135,6 +136,9 @@ public class Character : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-
+        if (collision.gameObject.TryGetComponent(out Rotator coin))
+        {
+            Debug.Log("Coin獲得");
+        }
     }
 }
